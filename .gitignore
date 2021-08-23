@@ -1,0 +1,12 @@
+# Python cache
+**/__pycache__
+
+# Jetbrains Intellij IDEA
+.idea/
+
+# MacOs .DS_Store
+**/.DS_Store
+
+# Main DB
+db.sqlite3
+
