@@ -1,13 +1,15 @@
 # Fabrique Test
   
-**Version 0.1**
+**Version 0.2**
+
+#### (All comments in code on RUS)
 
 <hr style="border:2px solid gray">
 
 ## How to Start
 
 *  __requirements.txt__ in main page
-*  All data for text in __migrations__ files
+*  All data for test in __migrations__ files
 *  Terminal commands to run:
    * **pip3 install -r requirements.txt**
    * **python3 manage.py migrate**
