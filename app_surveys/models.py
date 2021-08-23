@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 
@@ -87,6 +88,14 @@ class Question(models.Model):
         if self.question_num != 1:
             return f"{reverse('survey')}?survey_id={self.survey.id}&question={self.question_num - 1}"
 
+    def save(self, *args, **kwargs):
+        """
+        После заполнения поля date_start у опроса данного вопроса, запрещается вносить изменение в вопросы,
+            а именно (добавление/изменение/удаление)
+        """
+        if self.survey.date_start is None:
+            super(Question, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.text
 
@@ -100,6 +109,18 @@ class Choice(models.Model):
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='choices')
     title = models.CharField(max_length=150)
+
+    def save(self, *args, **kwargs):
+        """
+        После заполнения поля date_start у опроса которому относится вариант выбора в вопросе,
+            запрещается вносить изменение в вариант выбора, а именно (добавление/изменение/удаление)
+        Также нельзя добавлять варианты выбора, если в вопросе выбран тип текстового ответа
+        """
+        if self.question.type.name == 'text':
+            raise ValueError('Выбран вариант ответа «text».')
+        else:
+            if self.question.survey.date_start is None:
+                super(Choice, self).save(*args, **kwargs)
 
     def __str__(self):
         return f'question {self.question}: {self.title}'

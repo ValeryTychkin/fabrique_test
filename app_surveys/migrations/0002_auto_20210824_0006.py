@@ -2,6 +2,7 @@
 
 from datetime import date
 
+from django.contrib.auth.hashers import make_password
 from django.db import migrations
 
 
@@ -9,10 +10,20 @@ SURVEYS_NUM = 2
 
 
 def add_data(apps, schema_editor):
+    create_superuser(apps, schema_editor)
     add_answer_types(apps, schema_editor)
     add_survey_date_none(apps, schema_editor)
     add_questions(apps, schema_editor)
     update_survey_days_today(apps, schema_editor)
+
+
+def create_superuser(apps, schema_editor):
+    User = apps.get_model('auth', 'User')
+    User.objects.create(username='admin',
+                        password=make_password('admin'),
+                        is_staff=True,
+                        is_active=True,
+                        is_superuser=True)
 
 
 def add_answer_types(apps, schema_editor):

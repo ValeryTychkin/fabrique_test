@@ -12,6 +12,9 @@
    * **pip3 install -r requirements.txt**
    * **python3 manage.py migrate**
    * **python3 manage.py runserver**
+*  Administrator:  
+   * Login: __admin__  
+   * Password: __admin__
    
 <hr style="border:2px solid gray">
 
